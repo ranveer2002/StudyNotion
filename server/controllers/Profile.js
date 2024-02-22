@@ -163,11 +163,12 @@ exports.getEnrolledCourses = async (req, res) => {
           SubsectionLength +=
             userDetails.courses[i].courseContent[j].subSection.length
         }
-        let courseProgressCount = await CourseProgress.findOne({
+        let courseProgress = await CourseProgress.findOne({
           courseID: userDetails.courses[i]._id,
-          userId: userId,
+          userID: userId,
         })
-        courseProgressCount = courseProgressCount?.completedVideos.length
+        console.log("course progress count....",courseProgress);
+        let courseProgressCount = courseProgress?.completedVideos.length
         if (SubsectionLength === 0) {
           userDetails.courses[i].progressPercentage = 100
         } else {

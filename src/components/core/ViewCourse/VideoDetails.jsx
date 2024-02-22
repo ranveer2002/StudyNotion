@@ -17,7 +17,6 @@ const VideoDetails = () => {
   const { token } = useSelector((state) => state.auth);
   const { courseSectionData, courseEntireData, completedLectures } =
     useSelector((state) => state.viewCourse);
-
   const [videoData, setVideoData] = useState([]);
   const [previewSource, setPreviewSource] = useState("")
   const [videoEnded, setVideoEnded] = useState(false);
@@ -48,7 +47,7 @@ const VideoDetails = () => {
   }, [courseSectionData, courseEntireData, location.pathname]);
 
   const isFirstVideo = () => {
-    const currentSectionIndex = courseSectionData.findIndex(
+    const currentSectionIndex = courseSectionData?.findIndex(
       (data) => data._id === sectionId
     );
 
@@ -94,20 +93,20 @@ const VideoDetails = () => {
 
     const currentSubSectionIndex = courseSectionData[
       currentSectionIndex
-    ].subSectionId.findIndex((data) => data._id === subSectionId);
+    ].subSection.findIndex((data) => data._id === subSectionId);
 
     if (currentSubSectionIndex !== noOfSubSections - 1) {
       //same section ki next video me jao
       const nextSubSectionId =
         courseSectionData[currentSectionIndex].subSection[
-          currentSectionIndex + 1
+          currentSubSectionIndex + 1
         ]._id;
       //next video pr jao
       navigate(
         `/view-course/${courseId}/section/${sectionId}/sub-section/${nextSubSectionId}`
       );
     } else {
-      //different section ki first video
+      //different section first video
       const nextSectionId = courseSectionData[currentSectionIndex + 1]._id;
       const nextSubSectionId =
         courseSectionData[currentSectionIndex + 1].subSection[0]._id;
@@ -128,7 +127,7 @@ const VideoDetails = () => {
 
     const currentSubSectionIndex = courseSectionData[
       currentSectionIndex
-    ].subSectionId.findIndex((data) => data._id === subSectionId);
+    ].subSection.findIndex((data) => data._id === subSectionId);
 
     if (currentSubSectionIndex != 0) {
       //same section , prev video
@@ -160,7 +159,7 @@ const VideoDetails = () => {
     ///dummy code, baad me we will replace it witht the actual call
     setLoading(true);
     //PENDING - > Course Progress PENDING
-    const res = await markLectureAsComplete(
+    const res = await markLectureAsComplete(  
       { courseId: courseId, subSectionId: subSectionId },
       token
     );

@@ -6,7 +6,7 @@ const Section = require("../models/Section");
 const SubSection = require("../models/SubSection");
 const CourseProgress = require("../models/CourseProgress")
 const { convertSecondsToDuration } = require("../utils/secToDuration")
-
+const mongoose = require( "mongoose" );
 //create course
 exports.createCourse = async (req, res) => {
   try {
@@ -365,7 +365,7 @@ exports.getFullCourseDetails = async (req, res) => {
         },
       })
       .exec()
-
+  
     let courseProgressCount = await CourseProgress.findOne({
       courseID: courseId,
       userId: userId,
